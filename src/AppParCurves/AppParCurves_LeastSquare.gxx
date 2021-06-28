@@ -395,7 +395,7 @@ void AppParCurves_LeastSquare::Init(const MultiLine& SSP,
 
   if (LastConstraint == AppParCurves_PassPoint ||
       LastConstraint == AppParCurves_TangencyPoint ||
-      FirstConstraint == AppParCurves_CurvaturePoint) {
+      LastConstraint == AppParCurves_CurvaturePoint) {              // This should be a error when copying and pasting. -- Liu Xin
     i2 = 1;
     for (i = 1; i <= nbP; i++) {
       Poi.SetCoord(mypoints(mylastp, i2), 
