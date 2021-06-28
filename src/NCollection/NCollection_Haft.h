@@ -60,6 +60,12 @@ public:
     myPtr = new CPPClass (aPtr);
   }
 
+  //! Initialize CLI Haft object by C++ class object's rvalue reference. -- Liu Xin
+  NCollection_Haft (CPPClass&& aPtr)
+  {
+    myPtr = new CPPClass (std::move(aPtr));
+  }
+
   //! Destructor - invoked explicitly by delete, or automatically 
   //! when local variable is scoped out
   ~NCollection_Haft ()
