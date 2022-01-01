@@ -47,7 +47,7 @@
 // Derived (manually): version as real and string (major.minor)
 #define OCC_VERSION               7.5
 #define OCC_VERSION_STRING       "7.5"
-#define OCC_VERSION_COMPLETE     "7.5.0"
+#define OCC_VERSION_COMPLETE     "7.5.1"				// Changed by Liu Xin.
 
 //! Derived: extended version as string ("major.minor.maintenance.dev")
 #ifdef OCC_VERSION_DEVELOPMENT
