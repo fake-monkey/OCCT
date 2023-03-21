@@ -16,6 +16,10 @@ public:
 	~DocumentTut();
 
 	void                           onMakeBottle();
+	void                           OnMakeCorbel();
+
+private:
+	void                           LoadTopoDSShape(const TopoDS_Shape& a_shape);
 
 private:
 	SurfConstruction*			         mySurfConstructor;

@@ -23,17 +23,27 @@ DocumentTut::~DocumentTut()
 
 void DocumentTut::onMakeBottle()
 {
-    QApplication::setOverrideCursor( Qt::WaitCursor );
-    TopoDS_Shape aBottle=MakeBottle(50,70,30);
-    Handle(AIS_Shape) AISBottle=new AIS_Shape(aBottle);
-    getContext()->SetMaterial (AISBottle, Graphic3d_NameOfMaterial_Gold, Standard_False);
+    TopoDS_Shape shape=MakeBottle(50,70,30);
+    LoadTopoDSShape(shape);
+}
+
+void DocumentTut::OnMakeCorbel()
+{
+    TopoDS_Shape shape = MakeBottle(40, 80, 30);
+    LoadTopoDSShape(shape);
+}
+
+void DocumentTut::LoadTopoDSShape(const TopoDS_Shape& a_shape)
+{
+    getContext()->RemoveAll(true);
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    Handle(AIS_Shape) AISBottle = new AIS_Shape(a_shape);
+    getContext()->SetMaterial(AISBottle, Graphic3d_NameOfMaterial_Gold, Standard_False);
     getContext()->SetDisplayMode(AISBottle, 1, Standard_False);
-    getContext()->Display(AISBottle, Standard_False);	
+    getContext()->Display(AISBottle, Standard_False);
     const Handle(AIS_InteractiveObject)& anIOAISBottle = AISBottle;
-    getContext()->SetSelected(anIOAISBottle,Standard_False);
+    getContext()->SetSelected(anIOAISBottle, Standard_False);
     emit selectionChanged();
     fitAll();
     QApplication::restoreOverrideCursor();
 }
-
-
