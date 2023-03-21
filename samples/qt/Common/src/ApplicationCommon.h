@@ -65,8 +65,10 @@ private:
 	void                            createCasCadeOperations();
 	void                            createWindowPopup();
 
+protected:
+	int                             myNbDocuments;
+
 private:
-  int                             myNbDocuments;
 	bool                            myIsDocuments;
 
 	QList<QAction*>                 myStdActions;

@@ -10,6 +10,11 @@
 #include <AIS_Shape.hxx>
 
 #include "MakeCorbel.h"
+#include "STEPControl_Writer.hxx"
+#include "IFSelect_ReturnStatus.hxx"
+#include "STEPControl_StepModelType.hxx"
+#include "BRepBuilderAPI_Copy.hxx"
+#include "StdSelect_ShapeTypeFilter.hxx"
 
 using TTutorial::AbstractWorkpiece;
 using TTutorial::CorbelWorkpiece;
@@ -20,6 +25,10 @@ MakeBottle(const Standard_Real myWidth , const Standard_Real myHeight , const St
 DocumentTut::DocumentTut( const int theIndex, ApplicationCommonWindow* app )
 : DocumentCommon( theIndex, app )
 {
+    Handle(StdSelect_ShapeTypeFilter) edge_filter = new StdSelect_ShapeTypeFilter(TopAbs_EDGE);
+    myContext->AddFilter(edge_filter);
+    myContext->Activate(AIS_Shape::SelectionMode(TopAbs_ShapeEnum::TopAbs_SOLID));
+    const auto& highlight_style = myContext->HighlightStyle();
 }
 
 DocumentTut::~DocumentTut()
@@ -34,17 +43,32 @@ void DocumentTut::onMakeBottle()
 
 void DocumentTut::OnMakeCorbel()
 {
-    const AbstractWorkpiece& workpiece = CorbelWorkpiece(100, 80, 10, 8,
+    AbstractWorkpiece& workpiece = CorbelWorkpiece(100, 80, 10, 8,
         90, 5, 6, M_PI / 6,
         95, 4, 5,
         6, 80, 45);
-    const TopoDS_Shape& shape = workpiece.Shape();
+    workpiece.BuildShape();
+    TopoDS_Shape shape = workpiece.Shape();
     LoadTopoDSShape(shape);
 }
 
-void DocumentTut::LoadTopoDSShape(const TopoDS_Shape& a_shape)
+void DocumentTut::SaveToStep(const Standard_CString& a_file_string)
 {
-    getContext()->RemoveAll(true);
+    STEPControl_Writer step_writer;
+    IFSelect_ReturnStatus status;
+    status = step_writer.Transfer(m_current_shape, STEPControl_StepModelType::STEPControl_AsIs);
+    status = step_writer.Write(a_file_string);
+}
+
+double DocumentTut::Measure()
+{
+    return 0.0;
+}
+
+void DocumentTut::LoadTopoDSShape(TopoDS_Shape a_shape)
+{
+    m_current_shape = a_shape;
+    getContext()->RemoveAll(false);
     QApplication::setOverrideCursor(Qt::WaitCursor);
     Handle(AIS_Shape) AISBottle = new AIS_Shape(a_shape);
     getContext()->SetMaterial(AISBottle, Graphic3d_NameOfMaterial_Gold, Standard_False);

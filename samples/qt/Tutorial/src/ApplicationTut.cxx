@@ -1,4 +1,7 @@
 #include "ApplicationTut.h"
+
+#include <string>
+
 #include "DocumentTut.h"
 
 #include <OSD_Environment.hxx>
@@ -9,6 +12,9 @@
 #include <QMdiSubWindow>
 #include <Standard_WarningsRestore.hxx>
 #include <QDebug>
+#include <QFileDialog>
+
+using std::string;
 
 ApplicationTut::ApplicationTut()
     : ApplicationCommonWindow( )
@@ -38,6 +44,13 @@ void ApplicationTut::createMakeBottleOperation(){
 	QAction* make_corbel_action = new QAction(QString("make_corbel"), this);
 	connect(make_corbel_action, &QAction::triggered, this, &ApplicationTut::OnMakeCorbelAction);
 	myMakeBottleBar->addAction(make_corbel_action);
+
+	QAction* save_to_step = new QAction(QString("save_to_step"), this);
+	connect(save_to_step, &QAction::triggered, this, &ApplicationTut::OnSaveToStep);
+	myMakeBottleBar->addAction(save_to_step);
+
+	QAction* measure = new QAction(QString("measure"), this);
+	//connect(measure, &QAction::triggered, this, &ApplicationTut::)
 
 	myMakeBottleBar->hide();
 }
@@ -92,8 +105,42 @@ void ApplicationTut::OnMakeCorbelAction()
 		return;
 	}
 	statusBar()->showMessage(QString("make_corbel"), 5000);
-	doc->onMakeBottle();
+	doc->OnMakeCorbel();
 	statusBar()->showMessage(QObject::tr("INF_DONE"));
+}
+
+void ApplicationTut::OnSaveToStep()
+{
+	DocumentTut* doc = GetActiveDocumentTut();
+	if (doc == nullptr)
+	{
+		return;
+	}
+
+	statusBar()->showMessage(QString("save_to_step"), 5000);
+	QString saveFile = QFileDialog::getSaveFileName(nullptr,QString(),QString("D:/works/temp"), QString("*.stp"));
+	if (!saveFile.isEmpty())
+	{
+		string str = saveFile.toStdString();
+		doc->SaveToStep(str.c_str());
+	}
+	statusBar()->showMessage(QObject::tr("INF_DONE"));
+}
+
+void ApplicationTut::OnMeasure()
+{
+	DocumentTut* doc = GetActiveDocumentTut();
+	if (doc == nullptr)
+	{
+		return;
+	}
+	double length = doc->Measure();
+	statusBar()->showMessage(QString("length %1").arg(length));
+}
+
+DocumentCommon* ApplicationTut::createNewDocument()
+{
+	return new DocumentTut(++myNbDocuments, this);
 }
 
 QString ApplicationTut::getTutResourceDir()

@@ -19,7 +19,18 @@ public:
 public slots:
 	
 	void            onMakeBottleAction();
+	/**
+	 * @brief 生成牛腿钢模型。
+	*/
 	void            OnMakeCorbelAction();
+	/**
+	 * @brief 保存到step格式中。
+	*/
+	void            OnSaveToStep();
+	void            OnMeasure();
+
+protected:
+	virtual DocumentCommon* createNewDocument() override;
 
 private:
 	void              createMakeBottleOperation();
