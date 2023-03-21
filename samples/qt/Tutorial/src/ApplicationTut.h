@@ -18,12 +18,12 @@ public:
 
 public slots:
 	
-	void			onMakeBottleAction();
-	void			OnMakeCorbelAction();
+	void            onMakeBottleAction();
+	void            OnMakeCorbelAction();
 
 private:
 	void              createMakeBottleOperation();
-	DocumentTut*	  GetActiveDocumentTut();
+	DocumentTut*      GetActiveDocumentTut();
 
 private:
 	QToolBar*					myMakeBottleBar;
