@@ -6,3 +6,5 @@ Main.cxx
 MakeBottle.cxx
 Tutorial-icon.ts
 Tutorial-string.ts
+MakeCorbel.h
+MakeCorbel.cpp

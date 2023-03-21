@@ -23,6 +23,10 @@ public slots:
 
 private:
 	void              createMakeBottleOperation();
+	/**
+	 * @brief 获得当前活动的样例文档。
+	 * @return 当没有活动的文档时，返回nullptr。
+	*/
 	DocumentTut*      GetActiveDocumentTut();
 
 private:

@@ -9,6 +9,11 @@
 #include <TopoDS_Shape.hxx>
 #include <AIS_Shape.hxx>
 
+#include "MakeCorbel.h"
+
+using TTutorial::AbstractWorkpiece;
+using TTutorial::CorbelWorkpiece;
+
 TopoDS_Shape
 MakeBottle(const Standard_Real myWidth , const Standard_Real myHeight , const Standard_Real myThickness);
 
@@ -29,7 +34,11 @@ void DocumentTut::onMakeBottle()
 
 void DocumentTut::OnMakeCorbel()
 {
-    TopoDS_Shape shape = MakeBottle(40, 80, 30);
+    const AbstractWorkpiece& workpiece = CorbelWorkpiece(100, 80, 10, 8,
+        90, 5, 6, M_PI / 6,
+        95, 4, 5,
+        6, 80, 45);
+    const TopoDS_Shape& shape = workpiece.Shape();
     LoadTopoDSShape(shape);
 }
 
