@@ -43,6 +43,21 @@ if (WIN32)
   add_definitions(-D_UNICODE)
 endif()
 
+# 设置标准库链接选项为MD
+set(CMAKE_COMPILER_FLAGS_VARIABLES
+  CMAKE_C_FLAGS_DEBUG
+  CMAKE_C_FLAGS_MINSIZEREL
+  CMAKE_C_FLAGS_RELEASE
+  CMAKE_C_FLAGS_RELWITHDEBINFO
+  CMAKE_CXX_FLAGS_DEBUG
+  CMAKE_CXX_FLAGS_MINSIZEREL
+  CMAKE_CXX_FLAGS_RELEASE
+  CMAKE_CXX_FLAGS_RELWITHDEBINFO
+)
+foreach(variable ${CMAKE_COMPILER_FLAGS_VARIABLES})
+  string(REGEX REPLACE "/M(T|D)d?" "/MD" ${variable} "${${variable}}")
+endforeach()
+
 # include occt macros
 OCCT_INCLUDE_CMAKE_FILE ("adm/cmake/occt_macros")
 
